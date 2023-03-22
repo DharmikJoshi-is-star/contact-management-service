@@ -32,8 +32,8 @@ public class UserContactService {
         userContactDAO.saveUserContact(userContact);
     }
 
-    public void updateContact(String contactId, UpdateUserContactRequest updateUserContactRequest) {
-        Optional<UserContact> userContactOptional = userContactDAO.getUserContact(contactId);
+    public void updateContact(String userContactId, UpdateUserContactRequest updateUserContactRequest) {
+        Optional<UserContact> userContactOptional = userContactDAO.getUserContact(userContactId);
         if (userContactOptional.isPresent()) {
             UserContact userContact = userContactOptional.get();
             boolean isUpdated = userContact.updateDetails(updateUserContactRequest);
@@ -42,21 +42,27 @@ public class UserContactService {
                 return;
             }
         }
-        throw new CMSException("User Contact id: " + contactId + " does not exist!");
+        throw new CMSException("User Contact id: " + userContactId + " does not exist!");
     }
 
-    public UserContactResponse getContactById(String contactId) {
-        Optional<UserContact> userContactOptional = userContactDAO.getUserContact(contactId);
+    public UserContactResponse getUserContactById(String userContactId) {
+        Optional<UserContact> userContactOptional = userContactDAO.getUserContact(userContactId);
         if (userContactOptional.isPresent()) {
             return PojoConverter.convertUserContactToUserContactResponse(userContactOptional.get());
         }
-        throw new CMSException("User Contact id: " + contactId + " does not exist!");
+        throw new CMSException("User Contact id: " + userContactId + " does not exist!");
     }
 
-    public List<UserContactResponse> getContactsByFilter(String firstName, String lastName, String email) {
+    public List<UserContactResponse> getUserContactsByFilter(String firstName, String lastName, String email) {
         List<UserContact> userContacts = userContactDAO.getUserContactsByFilter(firstName, lastName, email);
         return CollectionUtils.isEmpty(userContacts) ? Collections.emptyList() : userContacts.stream()
                 .map(PojoConverter::convertUserContactToUserContactResponse)
                 .collect(Collectors.toList());
+    }
+
+    public void deleteContact(String userContactId) {
+        if (!userContactDAO.deleteUserContact(userContactId)) {
+            throw new CMSException("User Contact id: " + userContactId + " does not exist!");
+        }
     }
 }

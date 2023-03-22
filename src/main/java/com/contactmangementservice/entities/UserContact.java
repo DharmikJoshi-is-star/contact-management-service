@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
 @Document(collection = "user_contacts")
 public class UserContact extends BaseEntity {

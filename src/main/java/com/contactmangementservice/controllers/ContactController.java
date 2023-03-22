@@ -48,7 +48,7 @@ public class ContactController {
     })
     @PutMapping("/api/v1/contacts/{userContactId}")
     public ResponseEntity<?> updateContact(
-            @PathVariable("contactId") @ApiParam(name = "userContactId", value = "User Contact id")
+            @PathVariable("userContactId") @ApiParam(name = "userContactId", value = "User Contact id")
                     String userContactId,
             @Valid @RequestBody UpdateUserContactRequest updateUserContactRequest) {
         userContactService.updateContact(userContactId, updateUserContactRequest);
@@ -66,7 +66,7 @@ public class ContactController {
     public ResponseEntity<?> getContacts(@RequestParam(required = false) String firstName,
                                          @RequestParam(required = false) String lastName,
                                          @RequestParam(required = false) String email) {
-        return ResponseEntity.ok(userContactService.getContactsByFilter(firstName, lastName, email));
+        return ResponseEntity.ok(userContactService.getUserContactsByFilter(firstName, lastName, email));
     }
 
     @ApiOperation(value = "To get user contact by userContactId")
@@ -76,10 +76,24 @@ public class ContactController {
             @ApiResponse(code = 400, message = "userContact not found"),
             @ApiResponse(code = 401, message = "Unauthorised Access")
     })
-    @GetMapping("/api/v1/contacts/{contactId}")
+    @GetMapping("/api/v1/contacts/{userContactId}")
     public ResponseEntity<?> getContact(
-            @PathVariable("contactId") @ApiParam(name = "userContactId", value = "User Contact id") String contactId) {
-        return ResponseEntity.ok(userContactService.getContactById(contactId));
+            @PathVariable("userContactId") @ApiParam(name = "userContactId", value = "User Contact id")
+                    String userContactId) {
+        return ResponseEntity.ok(userContactService.getUserContactById(userContactId));
     }
 
+    @ApiOperation(value = "To delete existing contact")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User contact deleted successfully"),
+            @ApiResponse(code = 400, message = "userContact not found"),
+            @ApiResponse(code = 401, message = "Unauthorised Access")
+    })
+    @DeleteMapping("/api/v1/contacts/{userContactId}")
+    public ResponseEntity<?> deleteContact(
+            @PathVariable("userContactId") @ApiParam(name = "userContactId", value = "User Contact id")
+                    String userContactId) {
+        userContactService.deleteContact(userContactId);
+        return ResponseEntity.ok().build();
+    }
 }

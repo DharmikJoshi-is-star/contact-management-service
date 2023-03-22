@@ -7,12 +7,12 @@ import com.contactmangementservice.pojo.UserContactResponse;
 public class PojoConverter {
 
     public static UserContact convertAddContactRequestToContact(AddUserContactRequest addUserContactRequest) {
-        return UserContact.builder()
-                .firstName(addUserContactRequest.getFirstName())
-                .lastName(addUserContactRequest.getLastName())
-                .email(addUserContactRequest.getEmail())
-                .phoneNumber(addUserContactRequest.getPhoneNumber())
-                .build();
+        UserContact userContact = new UserContact();
+        userContact.setFirstName(addUserContactRequest.getFirstName());
+        userContact.setLastName(addUserContactRequest.getLastName());
+        userContact.setEmail(addUserContactRequest.getEmail());
+        userContact.setPhoneNumber(addUserContactRequest.getPhoneNumber());
+        return userContact;
     }
 
     public static UserContactResponse convertUserContactToUserContactResponse(UserContact userContact) {

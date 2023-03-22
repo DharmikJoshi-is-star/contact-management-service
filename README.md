@@ -69,3 +69,9 @@ RequestBody:-
 }
 
 ```
+<hr>
+
+<h3> # To DELETE User Contact by id</h3>
+URL:- http://localhost:8080/contact-management-service/api/v1/contacts/641a958c92cad31da48610c6
+
+<hr>

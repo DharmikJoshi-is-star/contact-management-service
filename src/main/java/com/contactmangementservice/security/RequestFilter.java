@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
 
-//@Component
-//@Order(1)
+@Component
+@Order(1)
 public class RequestFilter extends OncePerRequestFilter {
 
     private final AuthService authService;
